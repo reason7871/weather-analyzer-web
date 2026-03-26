@@ -537,16 +537,16 @@ export default function Home() {
                           <div className="text-sm font-semibold text-gray-800 dark:text-white">洗车建议</div>
                         </div>
                         <div className="text-xs text-gray-600 dark:text-gray-400">
-                          {getCarWashAdvice(weather.current.weather_code, weather.forecast?.daily?.[0]?.precipitation_probability || 0)}
+                          {getCarWashAdvice(weather.forecast?.daily?.[0]?.weather_code || weather.current.weather_code, weather.forecast?.daily?.[0]?.precipitation_probability || 0)}
                         </div>
                       </div>
                       <div className="bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20 rounded-xl p-4">
                         <div className="flex items-center gap-2 mb-2">
-                          <span className="text-2xl">👕</span>
+                          <span className="text-2xl">☀️</span>
                           <div className="text-sm font-semibold text-gray-800 dark:text-white">晾晒建议</div>
                         </div>
                         <div className="text-xs text-gray-600 dark:text-gray-400">
-                          {getDryingAdvice(weather.current.weather_code, weather.current.humidity)}
+                          {getDryingAdvice(weather.forecast?.daily?.[0]?.weather_code || weather.current.weather_code, weather.current.humidity)}
                         </div>
                       </div>
                     </div>
@@ -556,7 +556,7 @@ export default function Home() {
                       <div className="text-xs font-mono text-gray-600 dark:text-gray-400 space-y-1">
                         <div>📍 调试信息：</div>
                         <div>• 当前天气代码: {weather.current.weather_code} ({weather.current.weather_description})</div>
-                        <div>• 今日预报天气代码: {weather.forecast?.daily?.[0]?.weather_code} ({weather.forecast?.daily?.[0]?.weather_description})</div>
+                        <div>• 今日预报天气代码: {weather.forecast?.daily?.[0]?.weather_code} ({weather.forecast?.daily?.[0]?.weather_description}) ⬅️ 用于建议</div>
                         <div>• 今日降水概率: {weather.forecast?.daily?.[0]?.precipitation_probability}%</div>
                         <div>• 当前湿度: {weather.current.humidity}%</div>
                         <div className="text-gray-500">打开浏览器控制台(F12)查看详细日志</div>

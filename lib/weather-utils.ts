@@ -179,8 +179,14 @@ export function getExerciseAdvice(weather: string, temp: number, aqi?: number): 
 // 洗车建议
 export function getCarWashAdvice(weatherCode: number, precipProb: number): string {
   console.log(`[洗车建议] weatherCode=${weatherCode}, precipProb=${precipProb}`);
-  if (weatherCode >= 60 && weatherCode <= 69) {
-    console.log(`[洗车建议] 不宜洗车（有雨）：weatherCode ${weatherCode} 在 60-69 范围内`);
+
+  // 判断是否有雨：包括降雨(60-69)、阵雨(80-82)、雷暴(95-99)
+  const hasRain = (weatherCode >= 60 && weatherCode <= 69) ||
+                  (weatherCode >= 80 && weatherCode <= 82) ||
+                  (weatherCode >= 95 && weatherCode <= 99);
+
+  if (hasRain) {
+    console.log(`[洗车建议] 不宜洗车（有雨）：weatherCode ${weatherCode}`);
     return "不宜洗车（有雨）";
   }
   if (precipProb > 50) {
@@ -198,8 +204,14 @@ export function getCarWashAdvice(weatherCode: number, precipProb: number): strin
 // 晾晒建议
 export function getDryingAdvice(weatherCode: number, humidity: number): string {
   console.log(`[晾晒建议] weatherCode=${weatherCode}, humidity=${humidity}`);
-  if (weatherCode >= 60 && weatherCode <= 69) {
-    console.log(`[晾晒建议] 不宜晾晒（有雨）：weatherCode ${weatherCode} 在 60-69 范围内`);
+
+  // 判断是否有雨：包括降雨(60-69)、阵雨(80-82)、雷暴(95-99)
+  const hasRain = (weatherCode >= 60 && weatherCode <= 69) ||
+                  (weatherCode >= 80 && weatherCode <= 82) ||
+                  (weatherCode >= 95 && weatherCode <= 99);
+
+  if (hasRain) {
+    console.log(`[晾晒建议] 不宜晾晒（有雨）：weatherCode ${weatherCode}`);
     return "不宜晾晒（有雨）";
   }
   if (humidity > 80) {
