@@ -244,8 +244,12 @@ function checkHighUV(uvIndex?: number, weatherCode?: number): WeatherAlert | nul
   if (weatherCode && ((weatherCode >= 51 && weatherCode <= 67) ||
                        (weatherCode >= 71 && weatherCode <= 77) ||
                        (weatherCode >= 95 && weatherCode <= 99))) {
+    console.log(`[UV预警] 雨天/雪天/雷暴天不触发: weatherCode=${weatherCode}, uvIndex=${uvIndex}`);
     return null;
   }
+
+  console.log(`[UV预警] 检查UV预警: weatherCode=${weatherCode}, uvIndex=${uvIndex}`);
+
 
   if (uvIndex > 10) {
     return {

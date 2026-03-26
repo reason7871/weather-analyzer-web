@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>天气API测试</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        pre { background: #f5f5f5; padding: 10px; border-radius: 5px; overflow-x: auto; }
+        .section { margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>天气API数据测试</h1>
+    <div id="data">加载中...</div>
+
+    <script>
+        fetch('/api/weather?city=福州')
+            .then(res => res.json())
+            .then(data => {
+                const html = `
+                    <div class="section">
+                        <h2>当前天气</h2>
+                        <pre>${JSON.stringify(data.current, null, 2)}</pre>
+                    </div>
+                    <div class="section">
+                        <h2>今日预报 (用于预警判断)</h2>
+                        <pre>${JSON.stringify(data.forecast?.daily?.[0], null, 2)}</pre>
+                    </div>
+                    <div class="section">
+                        <h2>关键数据</h2>
+                        <p><strong>天气代码 (current):</strong> ${data.current.weather_code} (${data.current.weather_description})</p>
+                        <p><strong>天气代码 (今日预报):</strong> ${data.forecast?.daily?.[0]?.weather_code} (${data.forecast?.daily?.[0]?.weather_description})</p>
+                        <p><strong>今日UV指数:</strong> ${data.forecast?.daily?.[0]?.uv_index_max}</p>
+                        <p><strong>今日降水概率:</strong> ${data.forecast?.daily?.[0]?.precipitation_probability}%</p>
+                    </div>
+                `;
+                document.getElementById('data').innerHTML = html;
+            })
+            .catch(err => {
+                document.getElementById('data').innerHTML = `<p style="color: red;">错误: ${err.message}</p>`;
+            });
+    </script>
+</body>
+</html>

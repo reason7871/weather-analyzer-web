@@ -166,7 +166,7 @@ export default function Home() {
           <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base">
             实时天气 · 智能预警 · 台风追踪 · 城市对比
             <span className="ml-2 text-xs px-2 py-1 bg-blue-100 dark:bg-blue-900 rounded-full font-semibold text-blue-700 dark:text-blue-300">
-              v2.0
+              v2.1 (已修复雨天UV预警)
             </span>
           </p>
         </div>
