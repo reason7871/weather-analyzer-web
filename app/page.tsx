@@ -181,7 +181,7 @@ export default function Home() {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && searchWeather()}
-                placeholder="搜索城市（如：福州、北京、上海）"
+                placeholder="搜索城市（如：福州、厦门、Xiamen、Beijing）"
                 className="w-full pl-12 pr-4 py-3.5 bg-gray-50 dark:bg-gray-700 border-0 rounded-xl focus:ring-2 focus:ring-blue-500 dark:text-white transition-all"
               />
             </div>

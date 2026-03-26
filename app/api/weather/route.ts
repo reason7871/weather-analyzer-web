@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { convertChineseToPinyin } from "@/lib/city-mapping";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -12,8 +13,12 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    // 转换中文城市名为拼音（如果需要）
+    const searchCity = convertChineseToPinyin(city);
+    console.log(`[API] 城市名转换: "${city}" → "${searchCity}"`);
+
     // Step 1: Geocoding - Get coordinates
-    const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=zh&format=json`;
+    const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(searchCity)}&count=1&language=zh&format=json`;
     const geoResponse = await fetch(geoUrl);
 
     if (!geoResponse.ok) {
