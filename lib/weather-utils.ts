@@ -178,17 +178,39 @@ export function getExerciseAdvice(weather: string, temp: number, aqi?: number): 
 
 // 洗车建议
 export function getCarWashAdvice(weatherCode: number, precipProb: number): string {
-  if (weatherCode >= 60 && weatherCode <= 69) return "不宜洗车（有雨）";
-  if (precipProb > 50) return "不宜洗车（降水概率高）";
-  if (weatherCode === 0 || weatherCode === 1) return "适宜洗车（晴天）";
+  console.log(`[洗车建议] weatherCode=${weatherCode}, precipProb=${precipProb}`);
+  if (weatherCode >= 60 && weatherCode <= 69) {
+    console.log(`[洗车建议] 不宜洗车（有雨）：weatherCode ${weatherCode} 在 60-69 范围内`);
+    return "不宜洗车（有雨）";
+  }
+  if (precipProb > 50) {
+    console.log(`[洗车建议] 不宜洗车（降水概率高）：precipProb ${precipProb} > 50`);
+    return "不宜洗车（降水概率高）";
+  }
+  if (weatherCode === 0 || weatherCode === 1) {
+    console.log(`[洗车建议] 适宜洗车（晴天）：weatherCode=${weatherCode}`);
+    return "适宜洗车（晴天）";
+  }
+  console.log(`[洗车建议] 可以洗车：weatherCode=${weatherCode}, precipProb=${precipProb}`);
   return "可以洗车";
 }
 
 // 晾晒建议
 export function getDryingAdvice(weatherCode: number, humidity: number): string {
-  if (weatherCode >= 60 && weatherCode <= 69) return "不宜晾晒（有雨）";
-  if (humidity > 80) return "不宜晾晒（湿度过高）";
-  if (weatherCode === 0 || weatherCode === 1) return "非常适宜晾晒";
+  console.log(`[晾晒建议] weatherCode=${weatherCode}, humidity=${humidity}`);
+  if (weatherCode >= 60 && weatherCode <= 69) {
+    console.log(`[晾晒建议] 不宜晾晒（有雨）：weatherCode ${weatherCode} 在 60-69 范围内`);
+    return "不宜晾晒（有雨）";
+  }
+  if (humidity > 80) {
+    console.log(`[晾晒建议] 不宜晾晒（湿度过高）：humidity ${humidity} > 80`);
+    return "不宜晾晒（湿度过高）";
+  }
+  if (weatherCode === 0 || weatherCode === 1) {
+    console.log(`[晾晒建议] 非常适宜晾晒：weatherCode=${weatherCode}`);
+    return "非常适宜晾晒";
+  }
+  console.log(`[晾晒建议] 可以晾晒：weatherCode=${weatherCode}, humidity=${humidity}`);
   return "可以晾晒";
 }
 
