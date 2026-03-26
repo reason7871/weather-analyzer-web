@@ -235,9 +235,17 @@ function checkAirPollution(aqi?: number): WeatherAlert | null {
   return null;
 }
 
-// 检查强紫外线
-function checkHighUV(uvIndex?: number): WeatherAlert | null {
+// 检查强紫外线（添加天气代码参数，雨天不触发）
+function checkHighUV(uvIndex?: number, weatherCode?: number): WeatherAlert | null {
   if (!uvIndex) return null;
+
+  // 雨天、雪天、雷雨天不触发紫外线预警
+  // WMO天气代码：51-67雨，71-77雪，95-99雷暴
+  if (weatherCode && ((weatherCode >= 51 && weatherCode <= 67) ||
+                       (weatherCode >= 71 && weatherCode <= 77) ||
+                       (weatherCode >= 95 && weatherCode <= 99))) {
+    return null;
+  }
 
   if (uvIndex > 10) {
     return {
@@ -291,9 +299,11 @@ export function checkWeatherAlerts(data: {
   current?: {
     temperature?: number;
     wind_speed?: number;
+    weather_code?: number;
   };
   forecast?: {
     daily?: Array<{
+      weather_code?: number;
       precipitation_probability_max?: number;
       uv_index_max?: number;
     }>;
@@ -332,9 +342,9 @@ export function checkWeatherAlerts(data: {
       if (precipAlert) alerts.push(precipAlert);
     }
 
-    // 强紫外线
+    // 强紫外线（传递天气代码，雨天不触发）
     if (today.uv_index_max !== undefined) {
-      const uvAlert = checkHighUV(today.uv_index_max);
+      const uvAlert = checkHighUV(today.uv_index_max, today.weather_code);
       if (uvAlert) alerts.push(uvAlert);
     }
   }

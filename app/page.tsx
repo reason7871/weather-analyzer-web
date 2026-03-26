@@ -29,6 +29,12 @@ import {
   isFavorite,
 } from "@/lib/favorites-manager";
 import { checkTyphoonImpactForCity } from "@/lib/typhoon-tracker";
+import {
+  getClothingAdvice,
+  getExerciseAdvice,
+  getCarWashAdvice,
+  getDryingAdvice,
+} from "@/lib/weather-utils";
 
 export default function Home() {
   const [city, setCity] = useState("福州");
@@ -464,14 +470,14 @@ export default function Home() {
                     <div>
                       <h3 className="text-base font-semibold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
                         <Calendar className="w-4 h-4" />
-                        未来天气预报
+                        未来7天天气预报
                       </h3>
-                      <div className="grid grid-cols-3 gap-3">
-                        {weather.forecast.daily.slice(0, 3).map(
+                      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-3">
+                        {weather.forecast.daily.map(
                           (day: any, index: number) => (
                             <div
                               key={index}
-                              className="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 text-center hover:shadow-md transition-shadow"
+                              className="bg-gray-50 dark:bg-gray-700 rounded-xl p-3 text-center hover:shadow-md transition-shadow"
                             >
                               <div className="text-xs text-gray-600 dark:text-gray-400 mb-2">
                                 {new Date(day.date).toLocaleDateString("zh-CN", {
@@ -499,6 +505,52 @@ export default function Home() {
                       </div>
                     </div>
                   )}
+
+                  {/* Lifestyle Advice 生活建议 */}
+                  <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                    <h3 className="text-base font-semibold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
+                      <Activity className="w-4 h-4 text-green-500" />
+                      生活建议
+                    </h3>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="bg-gradient-to-br from-pink-50 to-rose-50 dark:from-pink-900/20 dark:to-rose-900/20 rounded-xl p-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-2xl">👕</span>
+                          <div className="text-sm font-semibold text-gray-800 dark:text-white">穿衣建议</div>
+                        </div>
+                        <div className="text-xs text-gray-600 dark:text-gray-400">
+                          {getClothingAdvice(weather.current.temperature, weather.current.weather_description)}
+                        </div>
+                      </div>
+                      <div className="bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-xl p-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-2xl">🏃</span>
+                          <div className="text-sm font-semibold text-gray-800 dark:text-white">运动建议</div>
+                        </div>
+                        <div className="text-xs text-gray-600 dark:text-gray-400">
+                          {getExerciseAdvice(weather.current.weather_description, weather.current.temperature)}
+                        </div>
+                      </div>
+                      <div className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl p-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-2xl">🚗</span>
+                          <div className="text-sm font-semibold text-gray-800 dark:text-white">洗车建议</div>
+                        </div>
+                        <div className="text-xs text-gray-600 dark:text-gray-400">
+                          {getCarWashAdvice(weather.current.weather_code, weather.forecast?.daily?.[0]?.precipitation_probability || 0)}
+                        </div>
+                      </div>
+                      <div className="bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20 rounded-xl p-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-2xl">👕</span>
+                          <div className="text-sm font-semibold text-gray-800 dark:text-white">晾晒建议</div>
+                        </div>
+                        <div className="text-xs text-gray-600 dark:text-gray-400">
+                          {getDryingAdvice(weather.current.weather_code, weather.current.humidity)}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
