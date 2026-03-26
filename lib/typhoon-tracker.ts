@@ -39,6 +39,7 @@ export interface TyphoonWarning {
   level: "blue" | "yellow" | "orange" | "red";
   name: string;
   color: string;
+  icon: string;
   message: string;
   distanceThreshold: number;
 }
@@ -96,7 +97,7 @@ export function assessTyphoonImpact(
   risk: "低" | "中等" | "高" | "极高";
   estimatedImpactTime?: string;
 } {
-  const { windSpeed, movement } = typhoon.current;
+  const { current: { windSpeed }, movement } = typhoon;
   const speed = movement.speed;
 
   // 计算预计到达时间
@@ -156,6 +157,7 @@ export function generateTyphoonWarning(
       level: "red",
       name: "红色预警",
       color: "#EF4444",
+      icon: "🔴",
       message: "6小时内将受台风严重袭击，紧急避险",
       distanceThreshold: 100,
     };
@@ -164,6 +166,7 @@ export function generateTyphoonWarning(
       level: "orange",
       name: "橙色预警",
       color: "#F97316",
+      icon: "🟠",
       message: "12小时内将受台风严重影响，停止户外活动",
       distanceThreshold: 200,
     };
@@ -172,6 +175,7 @@ export function generateTyphoonWarning(
       level: "yellow",
       name: "黄色预警",
       color: "#EAB308",
+      icon: "🟡",
       message: "24小时内将受台风影响，做好防风准备",
       distanceThreshold: 300,
     };
@@ -180,6 +184,7 @@ export function generateTyphoonWarning(
       level: "blue",
       name: "蓝色预警",
       color: "#3B82F6",
+      icon: "🔵",
       message: "24小时内可能受台风影响，请注意防范",
       distanceThreshold: 500,
     };
